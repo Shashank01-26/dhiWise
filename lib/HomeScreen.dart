@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dhiwise_assignment/HomeScreenModel.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState(){
     super.initState();
+    getData();
     _model = HomeScreenModel();
   }
 
@@ -32,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // FutureBuilder<Future>
     return Padding(
       padding: const EdgeInsets.only(top: 3),
       child: Container(
@@ -51,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
              Padding(
                padding: const EdgeInsets.only(top:15),
                child: Container(
-                 height:MediaQuery.of(context).size.height * 0.70,
+                 height:MediaQuery.of(context).size.height * 0.55,
                  child: Padding(
                    padding: const EdgeInsets.all(20.0),
                    child: Stack(
@@ -64,64 +67,70 @@ class _MyHomePageState extends State<MyHomePage> {
                          children: [
                            Column(
                              children: [
-                               Text(
-                                   "Buy a dream house",
-                                   style:TextStyle(
-                                     fontFamily: GoogleFonts.openSans().fontFamily,
-                                     color: Color.fromARGB(255, 255, 255, 255),
-                                     fontSize: 25.0,
-                                     decoration: TextDecoration.none,
-                                   )
+                               Padding(
+                                 padding: const EdgeInsets.only(top:15.0),
+                                 child: Text(
+                                     "Buy a dream house",
+                                     style:TextStyle(
+                                       fontFamily: GoogleFonts.openSans().fontFamily,
+                                       color: Color.fromARGB(255, 255, 255, 255),
+                                       fontSize: 25.0,
+                                       decoration: TextDecoration.none,
+                                     )
+                                 ),
                                ),
-                               Stack(
-                                 children:[
-                                   Padding(
-                                     padding: const EdgeInsets.only(left:25),
-                                     child: Column(
-                                       children: [
-                                         Icon(
-                                           Icons.home,
-                                           size: 300.0,
-                                           color: Colors.white,
-                                         ),
-                                         Text(
-                                             "\$25,000",
-                                             style:TextStyle(
-                                               fontFamily: GoogleFonts.openSans().fontFamily,
-                                               color: Color.fromARGB(255, 255, 255, 255),
-                                               fontSize: 20.0,
-                                               decoration: TextDecoration.none,
-                                             )
-                                         ),
-                                         Text(
-                                             "Saved",
-                                             style:TextStyle(
-                                               fontFamily: GoogleFonts.openSans().fontFamily,
-                                               color: Color.fromARGB(
-                                                   197, 255, 255, 255),
-                                               fontSize: 18.0,
-                                               decoration: TextDecoration.none,
-                                               fontWeight: FontWeight.w300,
-                                             )
-                                         )
-                                       ],
-                                     ),
-                                   ),
-                                   Padding(
-                                     padding: const EdgeInsets.only(top: 20),
-                                     child: SizedBox(
-                                       height:350.0,
-                                       width:350.0,
-                                       child: CircularProgressIndicator(
-                                         value: 0.35,
-                                         valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent[700]!),
-                                         strokeWidth: 14.0,
-                                         backgroundColor: Colors.white,
-                                         strokeCap: StrokeCap.round,
+                               Padding(
+                                 padding: const EdgeInsets.only(top:30),
+                                 child: Stack(
+                                   children:[
+                                     Padding(
+                                       padding: const EdgeInsets.only(left:25),
+                                       child: Column(
+                                         children: [
+                                           const Icon(
+                                             Icons.home,
+                                             size: 300.0,
+                                             color: Colors.white,
+                                           ),
+                                           Text(
+                                               "\$25,000",
+                                               style:TextStyle(
+                                                 fontFamily: GoogleFonts.openSans().fontFamily,
+                                                 color: Color.fromARGB(255, 255, 255, 255),
+                                                 fontSize: 20.0,
+                                                 decoration: TextDecoration.none,
+                                               )
+                                           ),
+                                           Text(
+                                               "Saved",
+                                               style:TextStyle(
+                                                 fontFamily: GoogleFonts.openSans().fontFamily,
+                                                 color:const Color.fromARGB(
+                                                     197, 255, 255, 255),
+                                                 fontSize: 18.0,
+                                                 decoration: TextDecoration.none,
+                                                 fontWeight: FontWeight.w300,
+                                               )
+                                           )
+                                         ],
                                        ),
                                      ),
-                                   )
-                                 ]
+                                     Padding(
+                                       padding: const EdgeInsets.only(top: 20),
+                                       child: SizedBox(
+                                         height:350.0,
+                                         width:350.0,
+                                         child: CircularProgressIndicator(
+                                           value: 0.35,
+                                           valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent[700]!),
+                                           strokeWidth: 14.0,
+                                           backgroundColor: Colors.white,
+                                           strokeCap: StrokeCap.round,
+                                         ),
+                                       ),
+                                     )
+                                   ]
+                                 ),
                                )
                              ],
                            ),
@@ -133,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                    "Coming Soon!!!",
                                       style: TextStyle(
                                         fontFamily: GoogleFonts.openSans().fontFamily,
-                                        color: Color.fromARGB(
+                                        color:const Color.fromARGB(
                                             255, 255, 255, 255),
                                         fontSize: 30.0,
                                         decoration: TextDecoration.none,
@@ -144,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                    "Stay Tuned",
                                    style: TextStyle(
                                      fontFamily: GoogleFonts.openSans().fontFamily,
-                                     color: Color.fromARGB(
+                                     color:const Color.fromARGB(
                                          192, 255, 255, 255),
                                      fontSize: 20.0,
                                      decoration: TextDecoration.none,
@@ -162,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                    "Coming Soon!!!",
                                    style: TextStyle(
                                      fontFamily: GoogleFonts.openSans().fontFamily,
-                                     color: Color.fromARGB(
+                                     color:const Color.fromARGB(
                                          255, 255, 255, 255),
                                      fontSize: 30.0,
                                      decoration: TextDecoration.none,
@@ -173,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                    "Stay Tuned",
                                    style: TextStyle(
                                      fontFamily: GoogleFonts.openSans().fontFamily,
-                                     color: Color.fromARGB(
+                                     color:const Color.fromARGB(
                                          192, 255, 255, 255),
                                      fontSize: 20.0,
                                      decoration: TextDecoration.none,
@@ -191,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                    "Coming Soon!!!",
                                    style: TextStyle(
                                      fontFamily: GoogleFonts.openSans().fontFamily,
-                                     color: Color.fromARGB(
+                                     color:const Color.fromARGB(
                                          255, 255, 255, 255),
                                      fontSize: 30.0,
                                      decoration: TextDecoration.none,
@@ -202,7 +211,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                    "Stay Tuned",
                                    style: TextStyle(
                                      fontFamily: GoogleFonts.openSans().fontFamily,
-                                     color: Color.fromARGB(
+                                     color:const Color.fromARGB(
                                          192, 255, 255, 255),
                                      fontSize: 20.0,
                                      decoration: TextDecoration.none,
@@ -531,6 +540,19 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> getData() async{
+    final db = FirebaseFirestore.instance;
+    final docRef = db.collection("goals").get().then(
+          (querySnapshot) {
+        print("Successfully completed");
+        for (var docSnapshot in querySnapshot.docs) {
+          print('${docSnapshot.id} => ${docSnapshot.data()}');
+        }
+      },
+      onError: (e) => print("Error completing: $e"),
     );
   }
 }
