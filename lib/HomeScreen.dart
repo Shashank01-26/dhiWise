@@ -1,6 +1,8 @@
 import 'package:dhiwise_assignment/HomeScreenModel.dart';
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_view_indicators/page_view_indicators.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -13,6 +15,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   late HomeScreenModel _model;
+  final _pageController = PageController();
+  int _currentPage = 0;
 
   @override
   void initState(){
@@ -33,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
       child: Container(
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
-          color: Colors.deepPurple[900],
+          color: Color.fromARGB(255, 45, 44, 121),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(50.0),
             topRight: Radius.circular(50.0)
@@ -47,45 +51,192 @@ class _MyHomePageState extends State<MyHomePage> {
              Padding(
                padding: const EdgeInsets.only(top:15),
                child: Container(
-                 height:MediaQuery.of(context).size.height * 0.75,
+                 height:MediaQuery.of(context).size.height * 0.70,
                  child: Padding(
                    padding: const EdgeInsets.all(20.0),
-                   child: PageView(
-                     // pageSnapping: true,
-                     controller: _model.pageViewController ??=
-                         PageController(initialPage: 0),
-                     scrollDirection: Axis.horizontal,
+                   child: Stack(
                      children: [
-                       Column(
+                       PageView(
+                         // pageSnapping: true,
+                         controller: _model.pageViewController ??=
+                             PageController(initialPage: 0),
+                         scrollDirection: Axis.horizontal,
                          children: [
-                           Text(
-                               "This is the head for First Text",
-                             style:TextStyle(
-                               fontFamily: GoogleFonts.openSans().fontFamily,
-                               color: Color.fromARGB(255, 255, 255, 255),
-                               fontSize: 25.0,
-                               decoration: TextDecoration.none,
-                             )
+                           Column(
+                             children: [
+                               Text(
+                                   "Buy a dream house",
+                                   style:TextStyle(
+                                     fontFamily: GoogleFonts.openSans().fontFamily,
+                                     color: Color.fromARGB(255, 255, 255, 255),
+                                     fontSize: 25.0,
+                                     decoration: TextDecoration.none,
+                                   )
+                               ),
+                               Stack(
+                                 children:[
+                                   Padding(
+                                     padding: const EdgeInsets.only(left:25),
+                                     child: Column(
+                                       children: [
+                                         Icon(
+                                           Icons.home,
+                                           size: 300.0,
+                                           color: Colors.white,
+                                         ),
+                                         Text(
+                                             "\$25,000",
+                                             style:TextStyle(
+                                               fontFamily: GoogleFonts.openSans().fontFamily,
+                                               color: Color.fromARGB(255, 255, 255, 255),
+                                               fontSize: 20.0,
+                                               decoration: TextDecoration.none,
+                                             )
+                                         ),
+                                         Text(
+                                             "Saved",
+                                             style:TextStyle(
+                                               fontFamily: GoogleFonts.openSans().fontFamily,
+                                               color: Color.fromARGB(
+                                                   197, 255, 255, 255),
+                                               fontSize: 18.0,
+                                               decoration: TextDecoration.none,
+                                               fontWeight: FontWeight.w300,
+                                             )
+                                         )
+                                       ],
+                                     ),
+                                   ),
+                                   Padding(
+                                     padding: const EdgeInsets.only(top: 20),
+                                     child: SizedBox(
+                                       height:350.0,
+                                       width:350.0,
+                                       child: CircularProgressIndicator(
+                                         value: 0.35,
+                                         valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent[700]!),
+                                         strokeWidth: 14.0,
+                                         backgroundColor: Colors.white,
+                                         strokeCap: StrokeCap.round,
+                                       ),
+                                     ),
+                                   )
+                                 ]
+                               )
+                             ],
                            ),
-                           ClipRRect(
-                             borderRadius: BorderRadius.circular(8),
-                             child: Text(
-                                 "This is First Screen",
-                                 style:TextStyle(
-                                   fontFamily: GoogleFonts.openSans().fontFamily,
-                                   color: Color.fromARGB(255, 255, 255, 255),
+                           Center(
+                             child: Column(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: [
+                                 Text(
+                                   "Coming Soon!!!",
+                                      style: TextStyle(
+                                        fontFamily: GoogleFonts.openSans().fontFamily,
+                                        color: Color.fromARGB(
+                                            255, 255, 255, 255),
+                                        fontSize: 30.0,
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.w300,
+                                      ),
                                  ),
+                                 Text(
+                                   "Stay Tuned",
+                                   style: TextStyle(
+                                     fontFamily: GoogleFonts.openSans().fontFamily,
+                                     color: Color.fromARGB(
+                                         192, 255, 255, 255),
+                                     fontSize: 20.0,
+                                     decoration: TextDecoration.none,
+                                     fontWeight: FontWeight.w300,
+                                   ),
+                                 ),
+                               ],
+                             ),
+                           ),
+                           Center(
+                             child: Column(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: [
+                                 Text(
+                                   "Coming Soon!!!",
+                                   style: TextStyle(
+                                     fontFamily: GoogleFonts.openSans().fontFamily,
+                                     color: Color.fromARGB(
+                                         255, 255, 255, 255),
+                                     fontSize: 30.0,
+                                     decoration: TextDecoration.none,
+                                     fontWeight: FontWeight.w300,
+                                   ),
+                                 ),
+                                 Text(
+                                   "Stay Tuned",
+                                   style: TextStyle(
+                                     fontFamily: GoogleFonts.openSans().fontFamily,
+                                     color: Color.fromARGB(
+                                         192, 255, 255, 255),
+                                     fontSize: 20.0,
+                                     decoration: TextDecoration.none,
+                                     fontWeight: FontWeight.w300,
+                                   ),
+                                 ),
+                               ],
+                             ),
+                           ),
+                           Center(
+                             child: Column(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: [
+                                 Text(
+                                   "Coming Soon!!!",
+                                   style: TextStyle(
+                                     fontFamily: GoogleFonts.openSans().fontFamily,
+                                     color: Color.fromARGB(
+                                         255, 255, 255, 255),
+                                     fontSize: 30.0,
+                                     decoration: TextDecoration.none,
+                                     fontWeight: FontWeight.w300,
+                                   ),
+                                 ),
+                                 Text(
+                                   "Stay Tuned",
+                                   style: TextStyle(
+                                     fontFamily: GoogleFonts.openSans().fontFamily,
+                                     color: Color.fromARGB(
+                                         192, 255, 255, 255),
+                                     fontSize: 20.0,
+                                     decoration: TextDecoration.none,
+                                     fontWeight: FontWeight.w300,
+                                   ),
+                                 ),
+                               ],
                              ),
                            ),
                          ],
+                         onPageChanged: (int index){
+                          setState((){
+                            _currentPage = index;
+                          });
+                         },
                        ),
-                       ClipRRect(
-                         borderRadius: BorderRadius.circular(8),
-                         child: Text("This is Second Screen"),
+                       Positioned(
+                           bottom: 10.0,
+                           left: 0.0,
+                           right: 0.0,
+                           child:DotsIndicator(
+                             dotsCount: 4,
+                             position: _currentPage,
+                             decorator: DotsDecorator(
+                                 size: const Size.square(8.0),
+                                 activeSize: const Size(20.0, 8.0),
+                                 activeShape: RoundedRectangleBorder(
+                                   borderRadius: BorderRadius.circular(5.0),
+                                 ),
+                             ),
+                           ),
                        ),
                      ],
                    ),
-                   //NEED TO ADD DOTS FOR PAGE NUMBERING
                  ),
                ),
              ),
@@ -135,7 +286,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Container(
                   height:MediaQuery.of(context).size.height * 0.15,
                   decoration: const BoxDecoration(
-                    color: Colors.blueAccent,
+                    color: Color.fromARGB(255, 60, 86, 243),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
                   child: Padding(
@@ -235,6 +386,140 @@ class _MyHomePageState extends State<MyHomePage> {
                               fontSize:18.0,
                               decoration: TextDecoration.none,
                               fontWeight: FontWeight.w400,
+                            ),),
+                        ],
+                      ),
+                   const SizedBox(height:10.0),
+                   Stack(
+                    children: [
+                      LinearProgressIndicator(
+                        borderRadius: BorderRadius.circular(60.0),
+                        minHeight: 20.0,
+                        value: 0.85,
+                        backgroundColor: Colors.transparent,
+                        color:Colors.yellow,
+                      ),
+                      LinearProgressIndicator(
+                        borderRadius: BorderRadius.circular(60.0),
+                        minHeight: 20.0,
+                        value: 0.75,
+                        backgroundColor: Colors.transparent,
+                        color: Colors.greenAccent[200],
+                      ),
+                      LinearProgressIndicator(
+                        borderRadius: BorderRadius.circular(60.0),
+                        minHeight: 20.0,
+                        value: 0.5,
+                        backgroundColor: Colors.transparent,
+                        color: Colors.blue,
+                      ),
+                    ],
+                  ),
+                      SizedBox(height:20),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.blue,
+                                radius:10,
+                              ),
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(8.0,0.0,0.0,0.0),
+                                child: Text(
+                                  "Field-1",
+                                  style:TextStyle(
+                                    fontFamily: GoogleFonts.openSans().fontFamily,
+                                    color: Color.fromARGB(224, 17, 36, 79),
+                                    fontSize:18.0,
+                                    decoration: TextDecoration.none,
+                                  ),),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            "Field Amount",
+                            style:TextStyle(
+                              fontFamily: GoogleFonts.openSans().fontFamily,
+                              color: Color.fromARGB(224, 17, 36, 79),
+                              fontSize:18.0,
+                              decoration: TextDecoration.none,
+                            ),),
+                        ],
+                      ),
+                      SizedBox(height:10),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.yellowAccent,
+                                radius:10,
+                              ),
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(8.0,0.0,0.0,0.0),
+                                child: Text(
+                                  "Field-2",
+                                  style:TextStyle(
+                                    fontFamily: GoogleFonts.openSans().fontFamily,
+                                    color: Color.fromARGB(224, 17, 36, 79),
+                                    fontSize:18.0,
+                                    decoration: TextDecoration.none,
+                                  ),),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            "Field Amount",
+                            style:TextStyle(
+                              fontFamily: GoogleFonts.openSans().fontFamily,
+                              color: Color.fromARGB(224, 17, 36, 79),
+                              fontSize:18.0,
+                              decoration: TextDecoration.none,
+                            ),),
+                        ],
+                      ),
+                      SizedBox(height:10),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.greenAccent[200],
+                                radius:10,
+                              ),
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(8.0,0.0,0.0,0.0),
+                                child: Text(
+                                  "Field-3",
+                                  style:TextStyle(
+                                    fontFamily: GoogleFonts.openSans().fontFamily,
+                                    color: Color.fromARGB(224, 17, 36, 79),
+                                    fontSize:18.0,
+                                    decoration: TextDecoration.none,
+                                  ),),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            "Field Amount",
+                            style:TextStyle(
+                              fontFamily: GoogleFonts.openSans().fontFamily,
+                              color: Color.fromARGB(224, 17, 36, 79),
+                              fontSize:18.0,
+                              decoration: TextDecoration.none,
                             ),),
                         ],
                       ),
