@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 
+import 'package:percent_indicator/circular_percent_indicator.dart';
+
 part 'model.dart';
 
 class MyHomePageBuilder extends StatelessWidget {
@@ -49,9 +51,33 @@ class _MyHomePage extends StatefulWidget {
   State<_MyHomePage> createState() => __MyHomePageState();
 }
 
-class __MyHomePageState extends State<_MyHomePage> {
+class __MyHomePageState extends State<_MyHomePage> with SingleTickerProviderStateMixin {
   int _currentPage = 0;
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+    );
+
+    _animateProgressBars();
+  }
+
+  void _animateProgressBars() {
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,14 +161,17 @@ class __MyHomePageState extends State<_MyHomePage> {
                                       child: SizedBox(
                                         height: 300.0,
                                         width: 300.0,
-                                        child: CircularProgressIndicator(
-                                          value: 0.35,
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  Colors.blueAccent[700]!),
-                                          strokeWidth: 14.0,
+                                        child: CircularPercentIndicator(
+                                          radius: 150,
+                                          lineWidth: 10.0,
+                                          percent: (widget.data.you_saved/widget.data.goal_amount),
                                           backgroundColor: Colors.white,
-                                          strokeCap: StrokeCap.round,
+                                          progressColor: Colors.blue,
+                                          animateFromLastPercent: true,
+                                          animation: true,
+                                          animationDuration: 1400,
+                                          curve: Curves.easeInOut,
+                                          circularStrokeCap: CircularStrokeCap.round,
                                         ),
                                       ),
                                     )
@@ -245,7 +274,7 @@ class __MyHomePageState extends State<_MyHomePage> {
                               ),
                             ),
                             Text(
-                              "\$" + widget.data.need_more_savings.toString(),
+                              "\$" + (widget.data.goal_amount - widget.data.you_saved).toString(),
                               style: TextStyle(
                                 fontFamily: GoogleFonts.openSans().fontFamily,
                                 color: Color.fromARGB(255, 255, 255, 255),
@@ -332,26 +361,41 @@ class __MyHomePageState extends State<_MyHomePage> {
                       const SizedBox(height: 10.0),
                       Stack(
                         children: [
-                          LinearProgressIndicator(
-                            borderRadius: BorderRadius.circular(60.0),
-                            minHeight: 20.0,
-                            value: 0.85,
-                            backgroundColor: Colors.transparent,
-                            color: Colors.yellow,
+                          AnimatedBuilder(
+                            animation: _animationController,
+                            builder: (context, child){
+                              return LinearProgressIndicator(
+                                borderRadius: BorderRadius.circular(60.0),
+                                minHeight: 20.0,
+                                value: widget.data.bonus.toDouble() * _animationController.value,
+                                backgroundColor: Colors.transparent,
+                                color: Colors.yellow,
+                              );
+                            },
                           ),
-                          LinearProgressIndicator(
-                            borderRadius: BorderRadius.circular(60.0),
-                            minHeight: 20.0,
-                            value: 0.75,
-                            backgroundColor: Colors.transparent,
-                            color: Colors.greenAccent[200],
+                          AnimatedBuilder(
+                            animation: _animationController,
+                            builder: (context, child) {
+                              return LinearProgressIndicator(
+                                borderRadius: BorderRadius.circular(60.0),
+                                minHeight: 20.0,
+                                value: widget.data.savings.toDouble() * _animationController.value,
+                                backgroundColor: Colors.transparent,
+                                color: Colors.greenAccent[200],
+                              );
+                            },
                           ),
-                          LinearProgressIndicator(
-                            borderRadius: BorderRadius.circular(60.0),
-                            minHeight: 20.0,
-                            value: 0.5,
-                            backgroundColor: Colors.transparent,
-                            color: Colors.blue,
+                          AnimatedBuilder(
+                              animation: _animationController,
+                              builder: (context, child) {
+                                return LinearProgressIndicator(
+                                  borderRadius: BorderRadius.circular(60.0),
+                                  minHeight: 20.0,
+                                  value: widget.data.monthly_salary.toDouble() * _animationController.value,
+                                  backgroundColor: Colors.transparent,
+                                  color: Colors.blue,
+                                );
+                              }
                           ),
                         ],
                       ),
