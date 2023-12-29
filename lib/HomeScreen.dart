@@ -1,6 +1,7 @@
 library home_page;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dhiwise_assignment/MultiDataProgressBar.dart';
 // import 'package:page_view_indicators/page_view_indicators.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 part 'model.dart';
 
@@ -361,41 +363,56 @@ class __MyHomePageState extends State<_MyHomePage> with SingleTickerProviderStat
                       const SizedBox(height: 10.0),
                       Stack(
                         children: [
-                          AnimatedBuilder(
-                            animation: _animationController,
-                            builder: (context, child){
-                              return LinearProgressIndicator(
-                                borderRadius: BorderRadius.circular(60.0),
-                                minHeight: 20.0,
-                                value: widget.data.bonus.toDouble() * _animationController.value,
-                                backgroundColor: Colors.transparent,
-                                color: Colors.yellow,
-                              );
-                            },
-                          ),
-                          AnimatedBuilder(
-                            animation: _animationController,
-                            builder: (context, child) {
-                              return LinearProgressIndicator(
-                                borderRadius: BorderRadius.circular(60.0),
-                                minHeight: 20.0,
-                                value: widget.data.savings.toDouble() * _animationController.value,
-                                backgroundColor: Colors.transparent,
-                                color: Colors.greenAccent[200],
-                              );
-                            },
-                          ),
-                          AnimatedBuilder(
-                              animation: _animationController,
-                              builder: (context, child) {
-                                return LinearProgressIndicator(
-                                  borderRadius: BorderRadius.circular(60.0),
-                                  minHeight: 20.0,
-                                  value: widget.data.monthly_salary.toDouble() * _animationController.value,
-                                  backgroundColor: Colors.transparent,
-                                  color: Colors.blue,
-                                );
-                              }
+                          // AnimatedBuilder(
+                          //   animation: _animationController,
+                          //   builder: (context, child){
+                          //     return LinearProgressIndicator(
+                          //       borderRadius: BorderRadius.circular(60.0),
+                          //       minHeight: 20.0,
+                          //       value: widget.data.bonus.toDouble() * _animationController.value,
+                          //       backgroundColor: Colors.transparent,
+                          //       color: Colors.yellow,
+                          //     );
+                          //   },
+                          // ),
+                          // AnimatedBuilder(
+                          //   animation: _animationController,
+                          //   builder: (context, child) {
+                          //     return LinearProgressIndicator(
+                          //       borderRadius: BorderRadius.circular(60.0),
+                          //       minHeight: 20.0,
+                          //       value: widget.data.savings.toDouble() * _animationController.value,
+                          //       backgroundColor: Colors.transparent,
+                          //       color: Colors.greenAccent[200],
+                          //     );
+                          //   },
+                          // ),
+                          // AnimatedBuilder(
+                          //     animation: _animationController,
+                          //     builder: (context, child) {
+                          //       return LinearProgressIndicator(
+                          //         borderRadius: BorderRadius.circular(60.0),
+                          //         minHeight: 20.0,
+                          //         value: widget.data.monthly_salary.toDouble() * _animationController.value,
+                          //         backgroundColor: Colors.transparent,
+                          //         color: Colors.blue,
+                          //       );
+                          //     }
+                          // ),
+                          // LinearPercentIndicator(
+                          //   fillColor: Colors.white,
+                          //   progressColor: Colors.blue,
+                          //   lineHeight: 25.0,
+                          //   animationDuration: 1200,
+                          //   animation: true,
+                          //   percent: (widget.data.monthly_salary/(widget.data.bonus + widget.data.savings)),
+                          // ),
+                          MultiDataLinearProgressBar(
+                            dataPoints: [
+                              DataPoint(value: (widget.data.monthly_salary).toDouble(), color: Colors.blue),
+                              DataPoint(value: (widget.data.savings).toDouble(), color: Colors.green),
+                              DataPoint(value: (widget.data.bonus).toDouble(), color: Colors.yellow),
+                            ],
                           ),
                         ],
                       ),
@@ -488,7 +505,7 @@ class __MyHomePageState extends State<_MyHomePage> with SingleTickerProviderStat
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               CircleAvatar(
-                                backgroundColor: Colors.greenAccent[200],
+                                backgroundColor: Colors.green,
                                 radius: 10,
                               ),
                               Padding(
