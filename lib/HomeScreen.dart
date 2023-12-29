@@ -18,6 +18,7 @@ class _MyHomePageState extends State<MyHomePage> {
   late HomeScreenModel _model;
   final _pageController = PageController();
   int _currentPage = 0;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState(){
@@ -32,14 +33,15 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
+  final Stream<QuerySnapshot> data = FirebaseFirestore.instance.collection("goals").snapshots();
+
   @override
   Widget build(BuildContext context) {
-    // FutureBuilder<Future>
     return Padding(
       padding: const EdgeInsets.only(top: 3),
       child: Container(
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color.fromARGB(255, 45, 44, 121),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(50.0),
@@ -439,14 +441,24 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(8.0,0.0,0.0,0.0),
-                                child: Text(
-                                  "Field-1",
-                                  style:TextStyle(
-                                    fontFamily: GoogleFonts.openSans().fontFamily,
-                                    color: Color.fromARGB(224, 17, 36, 79),
-                                    fontSize:18.0,
-                                    decoration: TextDecoration.none,
-                                  ),),
+                                child: StreamBuilder<QuerySnapshot>(
+                                  stream: data,
+                                  builder: (
+                                      BuildContext context,
+                                      AsyncSnapshot<QuerySnapshot> snapshot,
+                                  ){
+                                    if(snapshot.hasError){
+                                      return Text("Something went wrong");
+                                    }
+                                    if(snapshot.connectionState == ConnectionState.waiting){
+                                      return CircularProgressIndicator();
+                                    }
+                                    final datA = snapshot.requireData;
+                                    final percentage = datA.docs.isNotEmpty ? ["percentage"] as int
+                                        : 0;
+                                    return Text("${datA.docs[percentage]}");
+                                  }
+                                ),
                               ),
                             ],
                           ),
@@ -541,18 +553,23 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+
   }
 
-  Future<void> getData() async{
+  Future<Map<String,dynamic>> getData() async{
     final db = FirebaseFirestore.instance;
     final docRef = db.collection("goals").get().then(
           (querySnapshot) {
+            Map<String, dynamic> dataMap = {};
         print("Successfully completed");
         for (var docSnapshot in querySnapshot.docs) {
+          dataMap[docSnapshot.id] = docSnapshot.data();
           print('${docSnapshot.id} => ${docSnapshot.data()}');
         }
+            return dataMap;
       },
       onError: (e) => print("Error completing: $e"),
     );
+    return {};
   }
 }
